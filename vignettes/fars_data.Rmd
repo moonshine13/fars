@@ -1,0 +1,105 @@
+---
+title: "FARS accidents data"
+author: "Adam Kosewski"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+This package reads csv files, processes and summarize data. 
+Data comes from the US National Highway Traffic Safety Administration's Fatality Analysis Reporting System (FARS), which is a nationwide census providing the American public yearly data regarding fatal injuries suffered in motor vehicle traffic crashes. 
+
+```{r results='hide', message=FALSE, warning=FALSE, echo=FALSE}
+library("dplyr")
+library("tidyr")
+library("maps")
+library("graphics")
+
+fars_read <- function(filename) {
+  if(!file.exists(filename))
+    stop("file '", filename, "' does not exist")
+  data <- suppressMessages({
+    readr::read_csv(filename, progress = FALSE)
+  })
+  dplyr::tbl_df(data)
+}
+make_filename <- function(year) {
+  year <- as.integer(year)
+  sprintf("..\\data-raw\\accident_%d.csv.bz2", year)
+}
+
+fars_read_years <- function(years) {
+  lapply(years, function(year) {
+    file <- make_filename(year)
+    tryCatch({
+      dat <- fars_read(file)
+      dplyr::mutate(dat, year = year) %>%
+        dplyr::select(MONTH, year)
+    }, error = function(e) {
+      warning("invalid year: ", year)
+      return(NULL)
+    })
+  })
+}
+
+fars_summarize_years <- function(years) {
+  dat_list <- fars_read_years(years)
+  dplyr::bind_rows(dat_list) %>%
+    dplyr::group_by(year, MONTH) %>%
+    dplyr::summarize(n = n()) %>%
+    tidyr::spread(year, n)
+}
+fars_map_state <- function(state.num, year) {
+  filename <- make_filename(year)
+  data <- fars_read(filename)
+  state.num <- as.integer(state.num)
+
+  if(!(state.num %in% unique(data$STATE)))
+    stop("invalid STATE number: ", state.num)
+  data.sub <- dplyr::filter(data, STATE == state.num)
+  if(nrow(data.sub) == 0L) {
+    message("no accidents to plot")
+    return(invisible(NULL))
+  }
+  is.na(data.sub$LONGITUD) <- data.sub$LONGITUD > 900
+  is.na(data.sub$LATITUDE) <- data.sub$LATITUDE > 90
+  with(data.sub, {
+    maps::map("state", ylim = range(LATITUDE, na.rm = TRUE),
+              xlim = range(LONGITUD, na.rm = TRUE))
+    graphics::points(LONGITUD, LATITUDE, pch = 46)
+  })
+}
+
+
+```
+1. Data reading
+
+Use fars_read() function in order to read csv file:
+
+```{r echo = TRUE,results='asis', warnings=FALSE, messages = FALSE}
+
+dt1<- fars_read("..\\data-raw\\accident_2013.csv.bz2")
+knitr::kable(head(as.data.frame(dt1)[,1:10],3))
+```
+
+2. Summarize data
+
+Use fars_summarize_years() function in order to summarize data for a given years:
+
+
+```{r  echo=TRUE, warnings=FALSE, messages = FALSE}
+
+
+knitr::kable(fars_summarize_years(c(2014,2015)))
+```
+
+3. Map accidents
+
+Use fars_map_state() function in order to map accidents for a given state:
+
+``` {r echo = TRUE, warnings=FALSE, messages = FALSE}
+fars_map_state(1,2015)
+```
+
