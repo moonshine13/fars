@@ -2,22 +2,26 @@
 % Please edit documentation in R/fars_functions.R
 \name{fars_read}
 \alias{fars_read}
-\title{Read csv file}
+\title{Read  file into a data frame}
 \usage{
 fars_read(filename)
 }
 \arguments{
-\item{filename}{A character string giving the name of file to be read.}
+\item{filename}{characters vectors, containing file names or paths}
 }
 \value{
-This function returns a table created from csv file.
- Returned object has following classes:tbl_df, tbl, data.frame.
+This function returns a data frame.
 }
 \description{
-This is a simple function that reads csv file. In case if file does not exist
-appropriate message will be shown.
+This is a support function to read a delimited file into a data frame.
+}
+\section{\code{Error}{
+}
+If \code{filename} does not exist, the function will throw an error.
 }
 \examples{
-fars_read("accident_2013.csv.bz2")
+fars_read("accient_2013.csv.bz2")
+fars_read("accident_2014.csv.bz2")
+fars_read("accident_2015.csv.bz2")
 }
 

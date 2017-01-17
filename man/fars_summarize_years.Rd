@@ -2,24 +2,31 @@
 % Please edit documentation in R/fars_functions.R
 \name{fars_summarize_years}
 \alias{fars_summarize_years}
-\title{Summarize data for given years.}
+\title{Count accidents by month and years}
 \usage{
 fars_summarize_years(years)
 }
 \arguments{
-\item{years}{A numeric or character vector that can be convereged to numeric vector,
- meaning years to be filter.}
+\item{years}{is a vector or list  containing the accidents years.}
 }
 \value{
-This function returns a table with counts.
- Returned object has following classes: tbl_df, tbl, data.frame.
+This function returns a data frame containing the FARS dataset records
+specified in \code{years}.
 }
 \description{
-This is a simple function that creates summary table with counts of number of records
- per each month in a specified years.
+This function summarize the number of accidents in the FARS dataset by month and years.
+}
+\section{\code{Error}{
+}
+If \code{years} contains an invalid year, the function gives a warning message.
+if \code{years} does not contain a valid year, the function returns an error
 }
 \examples{
-fars_summarize_years(c(2014,2015))
-fars_summarize_years(c("2014"))
+fars_summarize_years(c(2013,2014,2015))
+fars_summarize_years(c("2013"))
+fars_summarize_years(list("2013",2014))
+}
+\seealso{
+\code{fars_read_years}
 }
 

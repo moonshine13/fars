@@ -2,27 +2,31 @@
 % Please edit documentation in R/fars_functions.R
 \name{fars_read_years}
 \alias{fars_read_years}
-\title{Filter and select data for given years.}
+\title{Read accident year records in a list}
 \usage{
 fars_read_years(years)
 }
 \arguments{
-\item{years}{A numeric or character vector that can be convereged to numeric vector,
- meaning years to be filter.}
+\item{years}{is a vector or list  containing the accidents years.}
 }
 \value{
-This function returns a list with data frames for each year, containing two
- variables MONTH (int) and year (chr).
+This function returns a list containing the FARS months and years records.
 }
 \description{
-This is a simple function that filter data for given years. In case if data for given year
- does not exist appropriate message is shown and NULL value is returned for this year.
- Function selects only MONTH and year variables from a data source.
+This is a support function to read the FARS  years  records in a list.
+}
+\section{\code{Error}{
+}
+If \code{years} contains an invalid year, the function gives a warning message.
+if \code{years} does not contain a valid year, the function returns a null list
 }
 \examples{
-fars_read_years(c(2013,2014))
 fars_read_years(c("2013","2014"))
-fars_read_years(2014)
-fars_read_years("2014")
+fars_read_years(c(2013,2014))
+fars_read_years(list("2013",2014))
+}
+\seealso{
+\code{make_filename}
+\code{fars_read}
 }
 

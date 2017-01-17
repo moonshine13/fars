@@ -2,25 +2,25 @@
 % Please edit documentation in R/fars_functions.R
 \name{make_filename}
 \alias{make_filename}
-\title{Create filename in a given structure}
+\title{Name  accident file year}
 \usage{
 make_filename(year)
 }
 \arguments{
-\item{year}{An integer or character string that can be converted to integer
- meaning year}
+\item{year}{a numeric string or integer containing the year accident}
 }
 \value{
-This function returns a character string returns a character vector containing
- a formatted combination of text and variable values in a format:
- accident_%d.csv.bz2".
+This function returns the string accident file name combined with the \code{year}
 }
 \description{
-This is a simple function that creates filename in a appropriate structure:
- "accident_%d.csv.bz2"
+This is a support function to format the accident file string year
 }
 \examples{
-make_filename("2015")
-make_filename(2015)
+make_filename(2013)
+make_filename("2013")
+}
+\seealso{
+\code{as.integr}
+\code{sprintf}
 }
 
