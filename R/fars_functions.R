@@ -8,9 +8,9 @@
 #' @return This function returns a table created from csv file.
 #'  Returned object has following classes:tbl_df, tbl, data.frame.
 #'
-#' @importFrom readr read_csv
+#' @import readr 
 #'
-#' @importFrom dplyr tbl_df
+#' @import dplyr
 #'
 #' @examples
 #' fars_read("accident_2013.csv.bz2")
@@ -60,7 +60,7 @@ make_filename <- function(year) {
 #' @return This function returns a list with data frames for each year, containing two
 #'  variables MONTH (int) and year (chr).
 #'
-#' @importFrom dplyr mutate select %>%
+#' @import dplyr
 #'
 #' @examples
 #' fars_read_years(c(2013,2014))
@@ -95,9 +95,9 @@ fars_read_years <- function(years) {
 #' @return This function returns a table with counts.
 #'  Returned object has following classes: tbl_df, tbl, data.frame.
 #'
-#' @importFrom dplyr bind_rows group_by summarize %>%
+#' @import dplyr
 #'
-#' @importFrom tidyr spread
+#' @import tidyr
 #'
 #' @examples
 #' fars_summarize_years(c(2014,2015))
@@ -128,11 +128,11 @@ fars_summarize_years <- function(years) {
 #'
 #' @return This function returns a map with state shape and marked accidents.
 #'
-#' @importFrom graphics points
+#' @import graphics
 #'
-#' @importFrom maps map
+#' @import maps
 #'
-#' @importFrom dplyr filter
+#' @import dplyr
 #'
 #' @examples
 #' fars_map_state(1,2013)
