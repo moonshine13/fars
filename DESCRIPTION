@@ -1,4 +1,4 @@
-Package: farsaccidents
+Package: fars
 Type: Package
 Title: FARS Data Processing
 Version: 0.1.0
