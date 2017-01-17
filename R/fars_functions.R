@@ -1,22 +1,21 @@
-#' Read  file into a data frame
-#' 
-#' This is a support function to read a delimited file into a data frame.
-#' 
-#' @param  filename characters vectors, containing file names or paths
-#' 
-#' @return This function returns a data frame. 
-#' 
-#' @section \code{Error:}
-#' If \code{filename} does not exist, the function will throw an error.
-#' 
+#' Read csv file
+#'
+#' This is a simple function that reads csv file. In case if file does not exist
+#' appropriate message will be shown.
+#'
+#' @param filename A character string giving the name of file to be read.
+#'
+#' @return This function returns a table created from csv file.
+#'  Returned object has following classes:tbl_df, tbl, data.frame.
+#'
 #' @importFrom readr read_csv
-#' @importFrom dplyr tbl_df
 #' 
+#' @importFrom dplyr tbl_df
+#'
 #' @examples
-#' fars_read("accient_2013.csv.bz2")
-#' fars_read("accident_2014.csv.bz2")
-#' fars_read("accident_2015.csv.bz2")
-
+#' fars_read("accident_2013.csv.bz2")
+#'
+#' @export
 fars_read <- function(filename) {
   if(!file.exists(filename))
     stop("file '", filename, "' does not exist")
@@ -26,58 +25,57 @@ fars_read <- function(filename) {
   dplyr::tbl_df(data)
 }
 
-#' Name  accident file year
-#'
-#' This is a support function to format the accident file string year
-#' 
-#' @param year a numeric string or integer containing the year accident
-#' 
-#' @return This function returns the string accident file name combined with the \code{year} 
-#' 
-#' @seealso 
-#' \code{as.integr}
-#' \code{sprintf}
-#' 
-#' @examples
-#' make_filename(2013)
-#' make_filename("2013")
 
+#' Create filename in a given structure
+#'
+#' This is a simple function that creates filename in a appropriate structure:
+#'  "accident_%d.csv.bz2"
+#'
+#' @param year An integer or character string that can be converted to integer
+#'  meaning year
+#'
+#' @return This function returns a character string returns a character vector containing
+#'  a formatted combination of text and variable values in a format:
+#'  accident_%d.csv.bz2".
+#'
+#' @examples
+#' make_filename("2015")
+#' make_filename(2015)
+#'
+#' @export
 make_filename <- function(year) {
   year <- as.integer(year)
   sprintf("accident_%d.csv.bz2", year)
 }
 
-
-#' Read accident year records in a list
-#' 
-#' This is a support function to read the FARS  years  records in a list. 
-#' 
-#' @param years is a vector or list  containing the accidents years.
-#' 
-#' @return This function returns a list containing the FARS months and years records.
-#' 
-#' @section \code{Error:}
-#' If \code{years} contains an invalid year, the function gives a warning message.
-#' if \code{years} does not contain a valid year, the function returns a null list
-#' 
-#' @seealso 
-#' \code{make_filename}
-#' \code{fars_read}
-#' 
+#' Filter and select data for given years.
+#'
+#' This is a simple function that filter data for given years. In case if data for given year
+#'  does not exist appropriate message is shown and NULL value is returned for this year.
+#'  Function selects only MONTH and year variables from a data source.
+#'
+#' @param years A numeric or character vector that can be convereged to numeric vector,
+#'  meaning years to be filter.
+#'
+#' @return This function returns a list with data frames for each year, containing two
+#'  variables MONTH (int) and year (chr).
+#'
 #' @importFrom dplyr mutate select %>%
-#' 
+#'
 #' @examples
-#' fars_read_years(c("2013","2014"))
 #' fars_read_years(c(2013,2014))
-#' fars_read_years(list("2013",2014))
-
-
+#' fars_read_years(c("2013","2014"))
+#' fars_read_years(2014)
+#' fars_read_years("2014")
+#'
+#' @export
 fars_read_years <- function(years) {
   lapply(years, function(year) {
     file <- make_filename(year)
+    print(file)
     tryCatch({
       dat <- fars_read(file)
-      dplyr::mutate(dat, year = year) %>% 
+      dplyr::mutate(dat, year = year) %>%
         dplyr::select(MONTH, year)
     }, error = function(e) {
       warning("invalid year: ", year)
@@ -86,62 +84,61 @@ fars_read_years <- function(years) {
   })
 }
 
-#' Count accidents by month and years
-#' 
-#' This function summarize the number of accidents in the FARS dataset by month and years.
-#' 
-#' @param years is a vector or list  containing the accidents years.
-#' 
-#' @return This function returns a data frame containing the FARS dataset records 
-#' specified in \code{years}.
-#' 
-#' @section \code{Error:}
-#' If \code{years} contains an invalid year, the function gives a warning message.
-#' if \code{years} does not contain a valid year, the function returns an error
-#' 
-#' @importFrom dplyr bind_rows group_by summarize
+#' Summarize data for given years.
+#'
+#' This is a simple function that creates summary table with counts of number of records
+#'  per each month in a specified years.
+#'
+#' @param years A numeric or character vector that can be convereged to numeric vector,
+#'  meaning years to be filter.
+#'
+#' @return This function returns a table with counts.
+#'  Returned object has following classes: tbl_df, tbl, data.frame.
+#'
+#' @importFrom dplyr bind_rows group_by summarize %>%
+#'
 #' @importFrom tidyr spread
-#' 
-#' @seealso \code{fars_read_years}
+#'
 #' @examples
-#' fars_summarize_years(c(2013,2014,2015))
-#' fars_summarize_years(c("2013"))
-#' fars_summarize_years(list("2013",2014))
-#' 
+#' fars_summarize_years(c(2014,2015))
+#' fars_summarize_years(c("2014"))
+#'
 #' @export
-
 fars_summarize_years <- function(years) {
   dat_list <- fars_read_years(years)
-  dplyr::bind_rows(dat_list) %>% 
-    dplyr::group_by(year, MONTH) %>% 
+  dplyr::bind_rows(dat_list) %>%
+    dplyr::group_by(year, MONTH) %>%
     dplyr::summarize(n = n()) %>%
     tidyr::spread(year, n)
 }
 
-
-#' Map the number of accidents by State and year
-#' 
-#' This function plot the number of accidents in the FARS dataset by states and years.
-#' 
-#' @param state.num vector or list representing the state number
-#' @param year vector or list representing the accidents years
-#' 
-#' @section \code{Error:}
-#' If \code{years} contains an invalid year, the function gives a warning message.
-#' if \code{years} does not contain a valid year, the function returns an error
-#' if \code{state.num} does not contain a valid state number, the function returns an error
-#' Error in get(dbname): object 'stateMapEnv' not found. It seems the object is missing in the maps library
-#' 
+#' Create map with state shape and accidents.
+#'
+#' This is a simple function that reads csv file for particular year.
+#' Filter data for particular state. In case if state does not exist
+#' appropriate message will be shown. If there is no accidents in particular state
+#' within specified year appropriate message will be shown.
+#' Function plots state shape and marks accidents as a dots.
+#'
+#' @param state An integer or character string that can be converted to integer
+#'  meaning state
+#'
+#' @param year An integer or character string that can be converted to integer
+#'  meaning year
+#'
+#' @return This function returns a map with state shape and marked accidents.
+#'
 #' @importFrom dplyr filter
+#'
 #' @importFrom maps map
-#' @importFrom graphics points
 #' 
+#' @importFrom graphics points
+
+#'
 #' @examples
 #' fars_map_state(1,2013)
-#' fars_map_state(c(1,2),c(2013,2014))
-#' 
+#'
 #' @export
-
 fars_map_state <- function(state.num, year) {
   filename <- make_filename(year)
   data <- fars_read(filename)

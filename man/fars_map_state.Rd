@@ -2,27 +2,28 @@
 % Please edit documentation in R/fars_functions.R
 \name{fars_map_state}
 \alias{fars_map_state}
-\title{Map the number of accidents by State and year}
+\title{Create map with state shape and accidents.}
 \usage{
 fars_map_state(state.num, year)
 }
 \arguments{
-\item{state.num}{vector or list representing the state number}
+\item{year}{An integer or character string that can be converted to integer
+ meaning year}
 
-\item{year}{vector or list representing the accidents years}
+\item{state}{An integer or character string that can be converted to integer
+ meaning state}
+}
+\value{
+This function returns a map with state shape and marked accidents.
 }
 \description{
-This function plot the number of accidents in the FARS dataset by states and years.
-}
-\section{\code{Error}{
-}
-If \code{years} contains an invalid year, the function gives a warning message.
-if \code{years} does not contain a valid year, the function returns an error
-if \code{state.num} does not contain a valid state number, the function returns an error
-Error in get(dbname): object 'stateMapEnv' not found. It seems the object is missing in the maps library
+This is a simple function that reads csv file for particular year.
+Filter data for particular state. In case if state does not exist
+appropriate message will be shown. If there is no accidents in particular state
+within specified year appropriate message will be shown.
+Function plots state shape and marks accidents as a dots.
 }
 \examples{
 fars_map_state(1,2013)
-fars_map_state(c(1,2),c(2013,2014))
 }
 
