@@ -27,7 +27,7 @@ fars_read <- function(filename) {
 }
 make_filename <- function(year) {
   year <- as.integer(year)
-  sprintf("..\\data-raw\\accident_%d.csv.bz2", year)
+  sprintf(file.path("..","data-raw","accident_%d.csv.bz2"), year)
 }
 
 fars_read_years <- function(years) {
@@ -80,7 +80,7 @@ Use fars_read() function in order to read csv file:
 
 ```{r echo = TRUE,results='asis', warnings=FALSE, messages = FALSE}
 
-dt1<- fars_read("..\\data-raw\\accident_2013.csv.bz2")
+dt1<- fars_read(file.path("..","data-raw","accident_2013.csv.bz2"))
 knitr::kable(head(as.data.frame(dt1)[,1:10],3))
 ```
 
