@@ -1,12 +1,13 @@
 Package: fars
 Type: Package
-Title: FARS Data Processing
+Title: Fars Data Processing
 Version: 0.1.0
 Author: Adam Kosewski <akosew@poczta.onet.pl>
 Maintainer: Adam Kosewski <akosew@poczta.onet.pl>
 Description: Packege reads, processes and summarize FARS data. Data concerning accidents may be displayed on a map with state shape.
 License: GPL
-LazyData: FALSE
+LazyData: yes
+Imports: dplyr, maps, graphics, readr, tidyr
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
