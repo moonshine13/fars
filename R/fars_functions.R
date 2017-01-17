@@ -9,7 +9,7 @@
 #'  Returned object has following classes:tbl_df, tbl, data.frame.
 #'
 #' @importFrom readr read_csv
-#'
+#' @import stringi
 #' @importFrom dplyr tbl_df
 #'
 #' @examples
