@@ -89,11 +89,11 @@ knitr::kable(head(as.data.frame(dt1)[,1:10],3))
 Use fars_summarize_years() function in order to summarize data for a given years:
 
 
-```{r  echo=TRUE, warnings=FALSE, messages = FALSE}
+<!-- ```{r  echo=TRUE, warnings=FALSE, messages = FALSE} -->
 
 
-knitr::kable(fars_summarize_years(c(2014,2015)))
-```
+<!-- knitr::kable(fars_summarize_years(c(2014,2015))) -->
+<!-- ``` -->
 
 3. Map accidents
 
