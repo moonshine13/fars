@@ -19,7 +19,7 @@ This is a simple function that creates summary table with counts of number of re
  per each month in a specified years.
 }
 \examples{
-fars_summarize_years(c(2014,2015))
-fars_summarize_years(c("2014"))
+\dontrun{fars_summarize_years(c(2014,2015))}
+\dontrun{fars_summarize_years(c("2014"))}
 }
 

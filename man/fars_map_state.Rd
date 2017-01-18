@@ -7,11 +7,11 @@
 fars_map_state(state.num, year)
 }
 \arguments{
+\item{state.num}{An integer or character string that can be converted to integer
+ meaning state}
+
 \item{year}{An integer or character string that can be converted to integer
  meaning year}
-
-\item{state}{An integer or character string that can be converted to integer
- meaning state}
 }
 \value{
 This function returns a map with state shape and marked accidents.
@@ -24,6 +24,6 @@ within specified year appropriate message will be shown.
 Function plots state shape and marks accidents as a dots.
 }
 \examples{
-fars_map_state(1,2013)
+\dontrun{fars_map_state(1,2013)}
 }
 

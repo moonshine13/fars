@@ -20,9 +20,9 @@ This is a simple function that filter data for given years. In case if data for 
  Function selects only MONTH and year variables from a data source.
 }
 \examples{
-fars_read_years(c(2013,2014))
-fars_read_years(c("2013","2014"))
-fars_read_years(2014)
-fars_read_years("2014")
+\dontrun{fars_read_years(c(2013,2014))}
+\dontrun{fars_read_years(c("2013","2014"))}
+\dontrun{fars_read_years(2014)}
+\dontrun{fars_read_years("2014")}
 }
 

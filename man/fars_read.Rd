@@ -18,6 +18,7 @@ This is a simple function that reads csv file. In case if file does not exist
 appropriate message will be shown.
 }
 \examples{
-fars_read("accident_2013.csv.bz2")
+file <- system.file("extdata", "accident_2013.csv.bz2", package = "fars")
+fars_read(file)
 }
 
