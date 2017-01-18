@@ -27,7 +27,8 @@ fars_read <- function(filename) {
 }
 make_filename <- function(year) {
   year <- as.integer(year)
-  sprintf(system.file("extdata", "accident_%d.csv.bz2" , package = "fars"), year)
+  #sprintf(system.file("extdata", "accident_%d.csv.bz2" , package = "fars"), year)
+  sprintf("accident_%d.csv.bz2"), year)
 }
 
 fars_read_years <- function(years) {
@@ -80,7 +81,8 @@ Use fars_read() function in order to read csv file:
 
 ```{r echo = TRUE,results='asis', warnings=FALSE, messages = FALSE}
 
-dt1<- fars_read(system.file("extdata", "accident_2013.csv.bz2" , package = "fars"))
+#dt1<- fars_read(system.file("extdata", "accident_2013.csv.bz2" , package = "fars"))
+dt1<- fars_read("accident_2013.csv.bz2")
 knitr::kable(head(as.data.frame(dt1)[,1:10],3))
 ```
 
@@ -89,17 +91,17 @@ knitr::kable(head(as.data.frame(dt1)[,1:10],3))
 Use fars_summarize_years() function in order to summarize data for a given years:
 
 
-<!-- ```{r  echo=TRUE, warnings=FALSE, messages = FALSE} -->
+```{r  echo=TRUE, warnings=FALSE, messages = FALSE}
 
 
-<!-- knitr::kable(fars_summarize_years(c(2014,2015))) -->
-<!-- ``` -->
+knitr::kable(fars_summarize_years(c(2014,2015)))
+```
 
 3. Map accidents
 
 Use fars_map_state() function in order to map accidents for a given state:
 
-<!-- ``` {r echo = TRUE, warnings=FALSE, messages = FALSE} -->
-<!-- fars_map_state(1,2015) -->
-<!-- ``` -->
+``` {r echo = TRUE, warnings=FALSE, messages = FALSE}
+fars_map_state(1,2015)
+```
 
