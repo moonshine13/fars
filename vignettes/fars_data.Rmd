@@ -99,7 +99,7 @@ Use fars_summarize_years() function in order to summarize data for a given years
 
 Use fars_map_state() function in order to map accidents for a given state:
 
-``` {r echo = TRUE, warnings=FALSE, messages = FALSE}
-fars_map_state(1,2015)
-```
+<!-- ``` {r echo = TRUE, warnings=FALSE, messages = FALSE} -->
+<!-- fars_map_state(1,2015) -->
+<!-- ``` -->
 
